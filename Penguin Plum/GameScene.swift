@@ -63,6 +63,8 @@ let WALLBLOCK_CATTEGORY_MASK:UInt32 = 0x1 << 6
 let GROUND_CATTEGORY_MASK:UInt32 = 0x1 << 7
 let COIN_CATTEGORY_MASK:UInt32 = 0x1 << 8
 let BROKEICE_CATTEGORY_MASK:UInt32 = 0x1 << 9
+let BROKEICEPEICE_CATTEGORY_MASK:UInt32 = 0x1 << 10
+
 
 
 var playerOrigXScaleRight:CGFloat = 0.0
@@ -161,6 +163,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock1.physicsBody.affectedByGravity = false
         iceBlock1.physicsBody.allowsRotation = false
         iceBlock1.physicsBody.categoryBitMask = ICEBLOCK1_CATTEGORY_MASK
+        iceBlock1.physicsBody.collisionBitMask = PLAYER_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK
+        
         self  .addChild(iceBlock1)
         
         iceBlock2 = SKSpriteNode(texture:iceBlockTexture)
@@ -172,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock2.physicsBody.affectedByGravity = false
         iceBlock2.physicsBody.allowsRotation = false
         iceBlock2.physicsBody.categoryBitMask = ICEBLOCK2_CATTEGORY_MASK
+        iceBlock2.physicsBody.collisionBitMask = PLAYER_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK
 
         self  .addChild(iceBlock2)
         
@@ -184,6 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock3.physicsBody.affectedByGravity = false
         iceBlock3.physicsBody.allowsRotation = false
         iceBlock3.physicsBody.categoryBitMask = ICEBLOCK3_CATTEGORY_MASK
+        iceBlock3.physicsBody.collisionBitMask = PLAYER_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK
 
         self  .addChild(iceBlock3)
         
@@ -197,6 +203,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock4.physicsBody.affectedByGravity = false
         iceBlock4.physicsBody.allowsRotation = false
         iceBlock4.physicsBody.categoryBitMask = ICEBLOCK4_CATTEGORY_MASK
+        iceBlock4.physicsBody.collisionBitMask = PLAYER_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK
 
         self  .addChild(iceBlock4)
         
@@ -209,6 +216,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock5.physicsBody.affectedByGravity = false
         iceBlock5.physicsBody.allowsRotation = false
         iceBlock5.physicsBody.categoryBitMask = ICEBLOCK5_CATTEGORY_MASK
+        iceBlock5.physicsBody.collisionBitMask = PLAYER_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK
 
         self  .addChild(iceBlock5)
         
@@ -316,6 +324,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock1.hidden = true
                     iceBlock1.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
                     
+                    if iceBlock1CollisionNumber < 92 {
+                        
+                        breakIceBlock(iceBlock1)
+                        
+                    }
+                    
                 }
                 else if iceBlock1CollisionNumber < 30{
                     
@@ -358,7 +372,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
                     iceBlock2.hidden = true
                     iceBlock2.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
-
+                    
+                    if iceBlock2CollisionNumber < 92 {
+                        
+                        breakIceBlock(iceBlock2)
+                        
+                    }
             
                 }else if iceBlock2CollisionNumber < 30{
                     
@@ -401,6 +420,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock3.hidden = true
                     iceBlock3.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
 
+                    if iceBlock3CollisionNumber < 92 {
+                        
+                        breakIceBlock(iceBlock3)
+                        
+                    }
                 }
                 else if iceBlock3CollisionNumber < 30{
                     
@@ -445,6 +469,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if iceBlock4CollisionNumber > 90{
                     iceBlock4.hidden = true
                     iceBlock4.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+                    if iceBlock4CollisionNumber < 92 {
+                        
+                        breakIceBlock(iceBlock4)
+                        
+                    }
 
                 }
                 else if iceBlock4CollisionNumber < 30{
@@ -491,6 +520,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if iceBlock5CollisionNumber > 90{
                     iceBlock5.hidden = true
                     iceBlock5.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+                    
+                    if iceBlock5CollisionNumber < 92 {
+                        
+                    breakIceBlock(iceBlock5)
+                    
+                    }
 
                 }
                 else if iceBlock5CollisionNumber < 30{
@@ -787,6 +822,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerOnIce5 = false
             
         }
+    }
+    
+    func breakIceBlock(block: SKSpriteNode){
+    
+    
+        var peiceOne = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceOne.position = CGPointMake(block.position.x, block.position.y)
+        peiceOne.physicsBody = SKPhysicsBody(rectangleOfSize: peiceOne.frame.size)
+        peiceOne .setScale(0.3)
+        peiceOne.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceOne.physicsBody.collisionBitMask = 0
+        
+        self .addChild(peiceOne)
+        
+        var peiceTwo = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceTwo.position = CGPointMake(block.position.x + 10, block.position.y + 5)
+        peiceTwo.physicsBody = SKPhysicsBody(rectangleOfSize: peiceTwo.frame.size)
+        peiceTwo .setScale(0.3)
+        peiceTwo.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceTwo.physicsBody.collisionBitMask = 0
+
+        self .addChild(peiceTwo)
+        
+        var peiceThree = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceThree.position = CGPointMake(block.position.x + 20, block.position.y + 20)
+        peiceThree.physicsBody = SKPhysicsBody(rectangleOfSize: peiceThree.frame.size)
+        peiceThree .setScale(0.3)
+        peiceThree.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceThree.physicsBody.collisionBitMask = 0
+
+        self .addChild(peiceThree)
+        
+        var peiceFour = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceFour.position = CGPointMake(block.position.x + 30, block.position.y + 10)
+        peiceFour.physicsBody = SKPhysicsBody(rectangleOfSize: peiceFour.frame.size)
+        peiceFour .setScale(0.3)
+        peiceFour.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceFour.physicsBody.collisionBitMask = 0
+
+        self .addChild(peiceFour)
+        
+        var peiceFive = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceFive.position = CGPointMake(block.position.x + 40, block.position.y + 30)
+        peiceFive.physicsBody = SKPhysicsBody(rectangleOfSize: peiceTwo.frame.size)
+        peiceFive .setScale(0.3)
+        peiceFive.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceFive.physicsBody.collisionBitMask = 0
+
+        self .addChild(peiceFive)
+        
+        var peiceSix = SKSpriteNode(imageNamed:"BrokenIcePeice")
+        peiceSix.position = CGPointMake(block.position.x + 50, block.position.y + 40)
+        peiceSix.physicsBody = SKPhysicsBody(rectangleOfSize: peiceSix.frame.size)
+        peiceSix .setScale(0.3)
+        peiceSix.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
+        peiceSix.physicsBody.collisionBitMask = 0
+
+        self .addChild(peiceSix)
+        
+
+        
+    
     }
 
 }
