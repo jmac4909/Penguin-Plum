@@ -62,7 +62,11 @@ let ICEBLOCK5_CATTEGORY_MASK:UInt32 = 0x1 << 5
 let WALLBLOCK_CATTEGORY_MASK:UInt32 = 0x1 << 6
 let GROUND_CATTEGORY_MASK:UInt32 = 0x1 << 7
 let COIN_CATTEGORY_MASK:UInt32 = 0x1 << 8
+let BROKEICE_CATTEGORY_MASK:UInt32 = 0x1 << 9
 
+
+var playerOrigXScaleRight:CGFloat = 0.0
+var playerOrigXScaleLeft:CGFloat = 0.0
 
 
 
@@ -94,7 +98,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         canDropMonsters = true
         
         //Backgroud
-        self.backgroundColor = UIColor .yellowColor()
+        self.backgroundColor = UIColor .grayColor()
         
         
         //Score Label
@@ -226,11 +230,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
 
+        playerOrigXScaleRight = player.xScale
+        playerOrigXScaleLeft = -player.xScale
+        
 
         
     }
-    
-
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
@@ -240,11 +245,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if location.x > player.position.x{
 
 
+                player.xScale = playerOrigXScaleRight
+
             player.physicsBody.velocity = CGVectorMake(playerXVelocity, player.physicsBody.velocity.dy)
             }
+
             else {
             player.physicsBody.velocity = CGVectorMake(playerXVelocity * -1, player.physicsBody.velocity.dy)
 
+                player.xScale = playerOrigXScaleLeft
 
             }
             }
@@ -265,7 +274,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-
     override func update(currentTime: CFTimeInterval) {
         
         scoreLabel.text = "Score: \(score)"
@@ -299,11 +307,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock1.texture = iceCrackOneTexture
                     
                     
-                }else if iceBlock1CollisionNumber > 60{
+                }else if iceBlock1CollisionNumber > 60 && iceBlock1CollisionNumber < 90{
                     
                     iceBlock1.texture = iceCrackTwoTexture
                     
-                }else if iceBlock1CollisionNumber < 30{
+                }else if iceBlock1CollisionNumber > 90 {
+                    
+                    iceBlock1.hidden = true
+                    iceBlock1.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+                    
+                }
+                else if iceBlock1CollisionNumber < 30{
                     
                     iceBlock1.texture = iceBlockTexture
                     
@@ -335,10 +349,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock2.texture = iceCrackOneTexture
                     
                     
-                }else if iceBlock2CollisionNumber > 60{
+                }else if iceBlock2CollisionNumber > 60 && iceBlock2CollisionNumber < 90{
                     
                     iceBlock2.texture = iceCrackTwoTexture
                     
+                }
+                else if iceBlock2CollisionNumber > 90 {
+            
+                    iceBlock2.hidden = true
+                    iceBlock2.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+
+            
                 }else if iceBlock2CollisionNumber < 30{
                     
                     iceBlock2.texture = iceBlockTexture
@@ -372,11 +393,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock3.texture = iceCrackOneTexture
                     
                     
-                }else if iceBlock3CollisionNumber > 60{
+                }else if iceBlock3CollisionNumber > 60 && iceBlock3CollisionNumber < 90{
                     
                     iceBlock3.texture = iceCrackTwoTexture
                     
-                }else if iceBlock3CollisionNumber < 30{
+                }else if iceBlock3CollisionNumber > 90{
+                    iceBlock3.hidden = true
+                    iceBlock3.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+
+                }
+                else if iceBlock3CollisionNumber < 30{
                     
                     iceBlock3.texture = iceBlockTexture
                     
@@ -412,11 +438,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock4.texture = iceCrackOneTexture
                     
                     
-                }else if iceBlock4CollisionNumber > 60{
+                }else if iceBlock4CollisionNumber > 60 && iceBlock4CollisionNumber < 90{
                     
                     iceBlock4.texture = iceCrackTwoTexture
                     
-                }else if iceBlock4CollisionNumber < 30{
+                }else if iceBlock4CollisionNumber > 90{
+                    iceBlock4.hidden = true
+                    iceBlock4.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+
+                }
+                else if iceBlock4CollisionNumber < 30{
                     
                     iceBlock4.texture = iceBlockTexture
                     
@@ -453,11 +484,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     iceBlock5.texture = iceCrackOneTexture
                     
                     
-                }else if iceBlock5CollisionNumber > 60{
+                }else if iceBlock5CollisionNumber > 60 && iceBlock5CollisionNumber < 90{
                     
                     iceBlock5.texture = iceCrackTwoTexture
                     
-                }else if iceBlock5CollisionNumber < 30{
+                }else if iceBlock5CollisionNumber > 90{
+                    iceBlock5.hidden = true
+                    iceBlock5.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
+
+                }
+                else if iceBlock5CollisionNumber < 30{
                     
                     iceBlock5.texture = iceBlockTexture
                     
@@ -496,7 +532,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-    
     func dropCoin(){
         
         let x = arc4random() % 6
@@ -584,8 +619,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
     }
-    
-    
     func dropIce(){
         if canDropMonsters == true{
         let x = arc4random() % 6
@@ -615,15 +648,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
     }
-    
-    
     func gameEnd(){
         //GAME OVER
     
 
         
     }
-    
     func restartScene(){
         
         
@@ -631,7 +661,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-    
     func didBeginContact(contact: SKPhysicsContact!){
         
 
@@ -705,15 +734,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }
-
-
-
-
-        
-        
-        
-        
-        
         
      
     }
@@ -740,10 +760,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //IceBlock 2 and Player
             playerOnIce2 = false
-            
-            
 
-            
             
         }
         if ((firstNode.physicsBody.categoryBitMask == PLAYER_CATTEGORY_MASK) || (secondNode.physicsBody.categoryBitMask == PLAYER_CATTEGORY_MASK )) && ((firstNode.physicsBody.categoryBitMask == ICEBLOCK3_CATTEGORY_MASK) || secondNode.physicsBody.categoryBitMask == ICEBLOCK3_CATTEGORY_MASK){
@@ -771,6 +788,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
     }
+
 }
 
 
