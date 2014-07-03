@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3F01754719571BB10045EE68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01754619571BB10045EE68 /* AppDelegate.swift */; };
+		3F01754919571BB10045EE68 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F01754819571BB10045EE68 /* GameScene.sks */; };
+		3F01754B19571BB10045EE68 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01754A19571BB10045EE68 /* GameScene.swift */; };
+		3F01754D19571BB10045EE68 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01754C19571BB10045EE68 /* GameViewController.swift */; };
+		3F01755019571BB10045EE68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F01754E19571BB10045EE68 /* Main.storyboard */; };
+		3F01755219571BB10045EE68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F01755119571BB10045EE68 /* Images.xcassets */; };
+		3F01755E19571BB10045EE68 /* Penguin_PlumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01755D19571BB10045EE68 /* Penguin_PlumTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F01755819571BB10045EE68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F01753919571BB00045EE68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F01754019571BB10045EE68;
+			remoteInfo = "Penguin Plum";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3F01754119571BB10045EE68 /* Penguin Plum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Penguin Plum.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F01754519571BB10045EE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F01754619571BB10045EE68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3F01754819571BB10045EE68 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		3F01754A19571BB10045EE68 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		3F01754C19571BB10045EE68 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		3F01754F19571BB10045EE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3F01755119571BB10045EE68 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3F01755719571BB10045EE68 /* Penguin PlumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Penguin PlumTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F01755C19571BB10045EE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F01755D19571BB10045EE68 /* Penguin_PlumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penguin_PlumTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3F01753E19571BB10045EE68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F01755419571BB10045EE68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F01753819571BB00045EE68 = {
+			isa = PBXGroup;
+			children = (
+				3F01754319571BB10045EE68 /* Penguin Plum */,
+				3F01755A19571BB10045EE68 /* Penguin PlumTests */,
+				3F01754219571BB10045EE68 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3F01754219571BB10045EE68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F01754119571BB10045EE68 /* Penguin Plum.app */,
+				3F01755719571BB10045EE68 /* Penguin PlumTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3F01754319571BB10045EE68 /* Penguin Plum */ = {
+			isa = PBXGroup;
+			children = (
+				3F01754619571BB10045EE68 /* AppDelegate.swift */,
+				3F01754C19571BB10045EE68 /* GameViewController.swift */,
+				3F01754819571BB10045EE68 /* GameScene.sks */,
+				3F01754A19571BB10045EE68 /* GameScene.swift */,
+				3F01754E19571BB10045EE68 /* Main.storyboard */,
+				3F01755119571BB10045EE68 /* Images.xcassets */,
+				3F01754419571BB10045EE68 /* Supporting Files */,
+			);
+			path = "Penguin Plum";
+			sourceTree = "<group>";
+		};
+		3F01754419571BB10045EE68 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3F01754519571BB10045EE68 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3F01755A19571BB10045EE68 /* Penguin PlumTests */ = {
+			isa = PBXGroup;
+			children = (
+				3F01755D19571BB10045EE68 /* Penguin_PlumTests.swift */,
+				3F01755B19571BB10045EE68 /* Supporting Files */,
+			);
+			path = "Penguin PlumTests";
+			sourceTree = "<group>";
+		};
+		3F01755B19571BB10045EE68 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3F01755C19571BB10045EE68 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F01754019571BB10045EE68 /* Penguin Plum */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F01756119571BB10045EE68 /* Build configuration list for PBXNativeTarget "Penguin Plum" */;
+			buildPhases = (
+				3F01753D19571BB10045EE68 /* Sources */,
+				3F01753E19571BB10045EE68 /* Frameworks */,
+				3F01753F19571BB10045EE68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Penguin Plum";
+			productName = "Penguin Plum";
+			productReference = 3F01754119571BB10045EE68 /* Penguin Plum.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3F01755619571BB10045EE68 /* Penguin PlumTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F01756419571BB10045EE68 /* Build configuration list for PBXNativeTarget "Penguin PlumTests" */;
+			buildPhases = (
+				3F01755319571BB10045EE68 /* Sources */,
+				3F01755419571BB10045EE68 /* Frameworks */,
+				3F01755519571BB10045EE68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F01755919571BB10045EE68 /* PBXTargetDependency */,
+			);
+			name = "Penguin PlumTests";
+			productName = "Penguin PlumTests";
+			productReference = 3F01755719571BB10045EE68 /* Penguin PlumTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3F01753919571BB00045EE68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Jeremy Mackey";
+				TargetAttributes = {
+					3F01754019571BB10045EE68 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					3F01755619571BB10045EE68 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 3F01754019571BB10045EE68;
+					};
+				};
+			};
+			buildConfigurationList = 3F01753C19571BB00045EE68 /* Build configuration list for PBXProject "Penguin Plum" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3F01753819571BB00045EE68;
+			productRefGroup = 3F01754219571BB10045EE68 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F01754019571BB10045EE68 /* Penguin Plum */,
+				3F01755619571BB10045EE68 /* Penguin PlumTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3F01753F19571BB10045EE68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F01755219571BB10045EE68 /* Images.xcassets in Resources */,
+				3F01754919571BB10045EE68 /* GameScene.sks in Resources */,
+				3F01755019571BB10045EE68 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F01755519571BB10045EE68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3F01753D19571BB10045EE68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F01754B19571BB10045EE68 /* GameScene.swift in Sources */,
+				3F01754D19571BB10045EE68 /* GameViewController.swift in Sources */,
+				3F01754719571BB10045EE68 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F01755319571BB10045EE68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F01755E19571BB10045EE68 /* Penguin_PlumTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3F01755919571BB10045EE68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F01754019571BB10045EE68 /* Penguin Plum */;
+			targetProxy = 3F01755819571BB10045EE68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3F01754E19571BB10045EE68 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F01754F19571BB10045EE68 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3F01755F19571BB10045EE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3F01756019571BB10045EE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3F01756219571BB10045EE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "Penguin Plum/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3F01756319571BB10045EE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "Penguin Plum/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3F01756519571BB10045EE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Penguin Plum.app/Penguin Plum";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Penguin PlumTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		3F01756619571BB10045EE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Penguin Plum.app/Penguin Plum";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Penguin PlumTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3F01753C19571BB00045EE68 /* Build configuration list for PBXProject "Penguin Plum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F01755F19571BB10045EE68 /* Debug */,
+				3F01756019571BB10045EE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F01756119571BB10045EE68 /* Build configuration list for PBXNativeTarget "Penguin Plum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F01756219571BB10045EE68 /* Debug */,
+				3F01756319571BB10045EE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F01756419571BB10045EE68 /* Build configuration list for PBXNativeTarget "Penguin PlumTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F01756519571BB10045EE68 /* Debug */,
+				3F01756619571BB10045EE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3F01753919571BB00045EE68 /* Project object */;
+}
