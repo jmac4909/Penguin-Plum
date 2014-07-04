@@ -11,21 +11,25 @@ import CoreMotion
 
 
 
-let  playButton = SKSpriteNode(imageNamed: "PlayButton")
 
+var  playButton = SKSpriteNode(imageNamed: "PlayButton")
 
 class menuScene: SKScene {
    
+
     
     override func didMoveToView(view: SKView!) {
         
-        
-        
-       self.backgroundColor = UIColor .whiteColor()
-        
-        
         playButton.position = CGPointMake(self.frame.width/2, self.frame.height/2)
+
+        
         self .addChild(playButton)
+        
+        
+        self.backgroundColor = UIColor .whiteColor()
+        
+
+        
         
         
     }
@@ -47,11 +51,17 @@ class menuScene: SKScene {
                     // Present the scene.
                 let transition = SKTransition .doorsOpenVerticalWithDuration(2)
                 
-                
+         
+
                 
                 self.view.presentScene(scene, transition: transition)
+                for node:AnyObject in self.children{
+                    
+                    node .removeFromParent()
                     
                     
+                }
+                
 
             }else {
                 

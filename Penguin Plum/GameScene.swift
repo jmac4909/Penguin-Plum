@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-let playerXVelocity:CGFloat = 300
+let playerXVelocity:CGFloat = 350
 let iceBlockScale:CGFloat = 0.5
 let iceBlockAlphaDecress:CGFloat = 0.009
 
@@ -34,6 +34,8 @@ var canDropMonsters = true
 var beforeGameTint = SKSpriteNode()
 
 
+var retryButton = SKSpriteNode(imageNamed: "Retry")
+var menuButton = SKSpriteNode(imageNamed: "Menu")
 
 
 var iceBlockTexture = SKTexture(imageNamed:"IceBlock")
@@ -60,8 +62,8 @@ var iceBlock5CollisionNumber = 0
 var score = 0
 var countDownNum = 3
 
-let scoreLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
-let countDownLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
+var scoreLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
+var countDownLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
 
 var playerOnIce1 = false
 var playerOnIce2 = false
@@ -92,10 +94,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
 
-
+        
         countDownNum = 3
-            gameStart = false
+        gameStart = false
 
+        coinDropTimer = nil
+        monDropTimer = nil
+        
         
         /* Setup your scene here */
         iceBlock1CollisionNumber = 0
@@ -114,11 +119,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self .removeAllChildren()
         self .removeAllActions()
-        shouldDropCoin = true
-        canDropMonsters = true
+        shouldDropCoin = false
+        canDropMonsters = false
         
         //Backgroud
-        self.backgroundColor = UIColor .grayColor()
+        self.backgroundColor = UIColor(red: 65/255, green: 160/255, blue: 222/255, alpha: 1)
         
         
         //Score Label
@@ -251,8 +256,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self .addChild(beforeGameTint)
         
         countDownLabel.position = CGPointMake(self.frame.width/2, self.frame.height/2)
-        countDownLabel.fontSize = 60
+        countDownLabel.fontSize = 100
         
+        
+        playerOnIce1 = false
+        playerOnIce2 = false
+        playerOnIce3 = false
+        playerOnIce4 = false
+        playerOnIce5 = false
         
         
         //Timers
@@ -270,7 +281,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self .addChild(countDownLabel)
 
         }
-        println("\(countDownNum)")
         if countDownNum > 0{
             
             countDownLabel.text = "\(countDownNum)"
@@ -285,6 +295,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             countDownLabel .removeFromParent()
             beforeGameTint .removeFromParent()
+            canDropMonsters = true
+            shouldDropCoin = true
             
 
         if monDropTimer{
@@ -299,10 +311,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if coinDropTimer{
-            
+            println("HI")
             
         }else{
-            
+            println("bye")
             coinDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropCoin", userInfo: nil, repeats: true)?
             
         }
@@ -311,10 +323,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        
-        if gameStart == true {
-            for touch: AnyObject in touches {
+        for touch: AnyObject in touches {
             let location = touch.locationInNode(self.scene)
+        if gameStart == true {
+       
                 
             if location.x > player.position.x{
 
@@ -331,8 +343,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             }
             }
+            if CGRectContainsPoint(retryButton.frame, location){
+                restartScene()
+            }else if CGRectContainsPoint(menuButton.frame, location){
+                
+                var scene:menuScene!
+                
+                scene = menuScene(size: self.view.bounds.size)
+                scene.scaleMode = .AspectFill
+                
+                // Present the scene.
+                
+                
+                self.view.presentScene(scene)
+                
+                
+                for node:AnyObject in self.children{
+                    
+                    node .removeFromParent()
+                    
+                    
+                }
+
+                
+
+                
+            }
+
         }
 
+        
     
     }
     override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
@@ -340,11 +380,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStart == true{
         if player.physicsBody.velocity.dx > 0{
             
-            player.physicsBody.velocity = CGVectorMake(70, player.physicsBody.velocity.dy)
+            player.physicsBody.velocity = CGVectorMake(80, player.physicsBody.velocity.dy)
             
         }else{
             
-            player.physicsBody.velocity = CGVectorMake(-70, player.physicsBody.velocity.dy)
+            player.physicsBody.velocity = CGVectorMake(-80, player.physicsBody.velocity.dy)
             
         }
         }
@@ -655,9 +695,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if gameStart == true{
         
-        let x = arc4random() % 6
+        var x = arc4random() % 6
 
         if x == 1 && iceBlock1.hidden == false && shouldDropCoin == true && playerOnIce1 == false{
+            
+            println("all true")
+
 
             coin = SKSpriteNode(imageNamed:"Coin")
             coin.position = CGPointMake(iceBlock1.position.x + iceBlock1.frame.width/2,iceBlock1.position.y + iceBlock1.frame.height)
@@ -672,8 +715,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         }else if x == 2 && iceBlock2.hidden == false && shouldDropCoin == true && playerOnIce2 == false{
 
+            println("all true")
+
             coin = SKSpriteNode(imageNamed:"Coin")
-            
             coin.position = CGPointMake(iceBlock2.position.x + iceBlock2.frame.width/2,iceBlock2.position.y + iceBlock2.frame.height)
             coin.setScale(0.4)
             coin.physicsBody = SKPhysicsBody(circleOfRadius:coin.frame.height/2)
@@ -688,6 +732,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }else if x == 3 && iceBlock3.hidden == false && shouldDropCoin == true && playerOnIce3 == false{
+            println("all true")
+
             coin = SKSpriteNode(imageNamed:"Coin")
 
             coin.position = CGPointMake(iceBlock3.position.x + iceBlock3.frame.width/2,iceBlock3.position.y + iceBlock3.frame.height)
@@ -704,6 +750,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }else if x == 4 && iceBlock4.hidden == false && shouldDropCoin == true && playerOnIce4 == false{
+            println("all true")
+
             coin = SKSpriteNode(imageNamed:"Coin")
 
             coin.position = CGPointMake(iceBlock4.position.x + iceBlock4.frame.width/2,iceBlock4.position.y + iceBlock4.frame.height)
@@ -720,6 +768,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }else if x == 5 && iceBlock5.hidden == false && shouldDropCoin == true && playerOnIce5 == false{
+            println("all true")
+
             coin = SKSpriteNode(imageNamed:"Coin")
             coin.position = CGPointMake(iceBlock5.position.x + iceBlock5.frame.width/2,iceBlock5.position.y + iceBlock5.frame.height)
             coin.setScale(0.4)
@@ -769,12 +819,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             }
             
-            }
-        }
+            }        }
     }
     func gameEnd(){
         //GAME OVER
     
+        gameStart = false
+        self .addChild(beforeGameTint)
+        retryButton .setScale(1.5)
+        retryButton.position = CGPointMake(self.frame.width/3, self.frame.height/2)
+        self .addChild(retryButton)
+        
+        menuButton.position = CGPointMake(self.frame.width/2 + menuButton.frame.width/2, self.frame.height/2)
+        menuButton .setScale(1.5)
+        self .addChild(menuButton)
+        
+        coinDropTimer = nil
+        
 
         
     }
@@ -785,6 +846,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
+    
     func didBeginContact(contact: SKPhysicsContact!){
         if gameStart == true {
 
@@ -843,7 +905,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //Ground and Player
-            restartScene()
+            gameEnd()
 
             
         }
@@ -852,7 +914,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //Coin and Player
-            score += 10
+            score += 5
             coin .removeFromParent()
             shouldDropCoin = true
             
@@ -892,6 +954,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //Iceblock 3 and Player
+
             playerOnIce3 = false
             
         }
@@ -900,6 +963,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //IceBlock 4 and Player
+
             playerOnIce4 = false
             
             
@@ -908,6 +972,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //IceBlock 5 and Player
+ 
             playerOnIce5 = false
             
         }
@@ -919,7 +984,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         var peiceOne = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceOne.position = CGPointMake(block.position.x, block.position.y)
-        peiceOne.physicsBody = SKPhysicsBody(rectangleOfSize: peiceOne.frame.size)
+        peiceOne.physicsBody = SKPhysicsBody(circleOfRadius: peiceOne.frame.width/2)
         peiceOne .setScale(0.3)
         peiceOne.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceOne.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -928,7 +993,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var peiceTwo = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceTwo.position = CGPointMake(block.position.x + 10, block.position.y + 5)
-        peiceTwo.physicsBody = SKPhysicsBody(rectangleOfSize: peiceTwo.frame.size)
+        peiceTwo.physicsBody = SKPhysicsBody(circleOfRadius: peiceTwo.frame.width/2)
         peiceTwo .setScale(0.3)
         peiceTwo.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceTwo.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -937,7 +1002,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var peiceThree = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceThree.position = CGPointMake(block.position.x + 20, block.position.y + 20)
-        peiceThree.physicsBody = SKPhysicsBody(rectangleOfSize: peiceThree.frame.size)
+        peiceThree.physicsBody = SKPhysicsBody(circleOfRadius: peiceThree.frame.width/2)
         peiceThree .setScale(0.3)
         peiceThree.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceThree.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -946,7 +1011,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var peiceFour = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceFour.position = CGPointMake(block.position.x + 30, block.position.y + 10)
-        peiceFour.physicsBody = SKPhysicsBody(rectangleOfSize: peiceFour.frame.size)
+        peiceFour.physicsBody = SKPhysicsBody(circleOfRadius: peiceFour.frame.width/2)
         peiceFour .setScale(0.3)
         peiceFour.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceFour.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -955,7 +1020,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var peiceFive = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceFive.position = CGPointMake(block.position.x + 40, block.position.y + 30)
-        peiceFive.physicsBody = SKPhysicsBody(rectangleOfSize: peiceTwo.frame.size)
+        peiceFive.physicsBody = SKPhysicsBody(circleOfRadius: peiceFive.frame.width/2)
         peiceFive .setScale(0.3)
         peiceFive.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceFive.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -964,7 +1029,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var peiceSix = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceSix.position = CGPointMake(block.position.x + 50, block.position.y + 40)
-        peiceSix.physicsBody = SKPhysicsBody(rectangleOfSize: peiceSix.frame.size)
+        peiceSix.physicsBody = SKPhysicsBody(circleOfRadius: peiceSix.frame.width/2)
         peiceSix .setScale(0.3)
         peiceSix.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceSix.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
@@ -975,6 +1040,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     
     }
+
+    
+    
+    
+    
 
 }
 
