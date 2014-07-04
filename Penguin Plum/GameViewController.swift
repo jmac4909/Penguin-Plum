@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
 
         
-        skView.showsFPS = true
+        skView.showsFPS = false
         skView.showsNodeCount = false
         skView.showsPhysics = false
         // Create and configure the scene.
