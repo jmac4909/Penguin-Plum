@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-    var scene: GameScene!
+    var scene: menuScene!
     
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -35,7 +35,7 @@ class GameViewController: UIViewController {
         skView.showsNodeCount = false
         skView.showsPhysics = false
         // Create and configure the scene.
-        scene = GameScene(size: skView.bounds.size)
+        scene = menuScene(size: skView.bounds.size)
         scene.scaleMode = .AspectFill
     
         // Present the scene.
