@@ -299,25 +299,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shouldDropCoin = true
             
 
-        if monDropTimer{
-
+        if !monDropTimer{
+            println("momTimer dont exist")
+            monDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropIce", userInfo: nil, repeats: true)
             
-        }else{
-
-            
-            monDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropIce", userInfo: nil, repeats: true)?
             
         }
         
         
-        if coinDropTimer{
-            println("HI")
+        if !coinDropTimer{
+
+            println("coin drop timwe no exist")
+            coinDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropCoin", userInfo: nil, repeats: true)
             
-        }else{
-            println("bye")
-            coinDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropCoin", userInfo: nil, repeats: true)?
             
         }
+            
         }
         
     }
@@ -697,9 +694,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var x = arc4random() % 6
 
-        if x == 1 && iceBlock1.hidden == false && shouldDropCoin == true && playerOnIce1 == false{
+            println("X: \(x)")
             
-            println("all true")
+        if x == 1 && iceBlock1.hidden == false && shouldDropCoin == true {
+            
 
 
             coin = SKSpriteNode(imageNamed:"Coin")
@@ -713,9 +711,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.scene .addChild(coin)
             shouldDropCoin = false
 
-        }else if x == 2 && iceBlock2.hidden == false && shouldDropCoin == true && playerOnIce2 == false{
+        }
+            if x == 2 && iceBlock2.hidden == false && shouldDropCoin == true {
 
-            println("all true")
 
             coin = SKSpriteNode(imageNamed:"Coin")
             coin.position = CGPointMake(iceBlock2.position.x + iceBlock2.frame.width/2,iceBlock2.position.y + iceBlock2.frame.height)
@@ -731,8 +729,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             
             
-        }else if x == 3 && iceBlock3.hidden == false && shouldDropCoin == true && playerOnIce3 == false{
-            println("all true")
+        }
+            if x == 3 && iceBlock3.hidden == false && shouldDropCoin == true {
 
             coin = SKSpriteNode(imageNamed:"Coin")
 
@@ -749,8 +747,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             
             
-        }else if x == 4 && iceBlock4.hidden == false && shouldDropCoin == true && playerOnIce4 == false{
-            println("all true")
+        }
+            if x == 4 && iceBlock4.hidden == false && shouldDropCoin == true {
 
             coin = SKSpriteNode(imageNamed:"Coin")
 
@@ -767,8 +765,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             
             
-        }else if x == 5 && iceBlock5.hidden == false && shouldDropCoin == true && playerOnIce5 == false{
-            println("all true")
+        }
+            if x == 5 && iceBlock5.hidden == false && shouldDropCoin == true {
 
             coin = SKSpriteNode(imageNamed:"Coin")
             coin.position = CGPointMake(iceBlock5.position.x + iceBlock5.frame.width/2,iceBlock5.position.y + iceBlock5.frame.height)
@@ -792,35 +790,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     func dropIce(){
+        
         if gameStart == true {
-        if canDropMonsters == true{
-        let x = arc4random() % 6
-        if x == 1 {
-            iceBlock1.physicsBody.velocity = CGVectorMake(iceBlock1.physicsBody.velocity.dx, -700)
-            
-        }else if x == 2 && iceBlock2.alpha > 0{
-            iceBlock2.physicsBody.velocity = CGVectorMake(iceBlock2.physicsBody.velocity.dx, -700)
-            
-            
-            
-        }else if x == 3 && iceBlock3.alpha > 0{
-            iceBlock3.physicsBody.velocity = CGVectorMake(iceBlock3.physicsBody.velocity.dx, -700)
-            
-            
-        }else if x == 4 && iceBlock4.alpha > 0{
-            iceBlock4.physicsBody.velocity = CGVectorMake(iceBlock4.physicsBody.velocity.dx, -700)
-            
-            
-            
-        }else if x == 5 && iceBlock5.alpha > 0{
-            iceBlock5.physicsBody.velocity = CGVectorMake(iceBlock5.physicsBody.velocity.dx, -700)
-            
-            
-            
+
+            if canDropMonsters == true{
+
+                let x = arc4random() % 6
+
+                if x == 1 && iceBlock1.hidden == false{
+
+                iceBlock1.physicsBody.velocity = CGVectorMake(iceBlock1.physicsBody.velocity.dx, -700)
+
+                }
+              
+                else if x == 2 && iceBlock1.hidden == false{
+
+                iceBlock2.physicsBody.velocity = CGVectorMake(iceBlock2.physicsBody.velocity.dx, -700)
+
+
+
+                }
+          
+                else if x == 3 && iceBlock1.hidden == false{
+
+                iceBlock3.physicsBody.velocity = CGVectorMake(iceBlock3.physicsBody.velocity.dx, -700)
+
+
+                }
+             
+                else if x == 4 && iceBlock1.hidden == false{
+
+                iceBlock4.physicsBody.velocity = CGVectorMake(iceBlock4.physicsBody.velocity.dx, -700)
+
+
+
+                }
+              
+                else if x == 5 && iceBlock1.hidden == false{
+
+                iceBlock5.physicsBody.velocity = CGVectorMake(iceBlock5.physicsBody.velocity.dx, -700)
+
+
+
+                }
+               
+
             }
-            
-            }        }
-    }
+        }
+        }
     func gameEnd(){
         //GAME OVER
     
@@ -835,6 +852,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self .addChild(menuButton)
         
         coinDropTimer = nil
+        monDropTimer = nil
+        
+
         
 
         
@@ -1041,11 +1061,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     }
 
-    
-    
-    
-    
-
 }
-
-
