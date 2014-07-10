@@ -12,13 +12,15 @@ let playerXVelocity:CGFloat = 350
 let iceBlockScale:CGFloat = 0.5
 let iceBlockAlphaDecress:CGFloat = 0.009
 
-var monDropTimer:NSTimer?
-var coinDropTimer:NSTimer?
+var monDropTimer = NSTimer()
+var coinDropTimer = NSTimer()
 var startTimer = NSTimer()
+var scoreTimer = NSTimer()
 
 var ground =  SKSpriteNode()
 var player = SKSpriteNode()
 var coin = SKSpriteNode()
+var cornerCoin = SKSpriteNode()
 
 var iceBlock1 =  SKSpriteNode()
 var iceBlock2 =  SKSpriteNode()
@@ -26,10 +28,22 @@ var iceBlock3 =  SKSpriteNode()
 var iceBlock4 =  SKSpriteNode()
 var iceBlock5 =  SKSpriteNode()
 
-var gameStart = false
+var iceBlock1Sign =  SKSpriteNode()
+var iceBlock2Sign =  SKSpriteNode()
+var iceBlock3Sign =  SKSpriteNode()
+var iceBlock4Sign =  SKSpriteNode()
+var iceBlock5Sign =  SKSpriteNode()
 
-var shouldDropCoin = true
-var canDropMonsters = true
+
+var newScoreSprite = SKSpriteNode(imageNamed: "newScore")
+
+
+var gameStart = false
+var gameEndBool = false
+var buttonWasPushed = false
+
+var shouldDropCoin = false
+var canDropMonsters = false
 
 var beforeGameTint = SKSpriteNode()
 
@@ -49,8 +63,30 @@ var iceCrackTwo1Texture = SKTexture(imageNamed:"IceBlockCrack2-1")
 var iceCrackTwo2Texture = SKTexture(imageNamed:"IceBlockCrack2-2")
 
 
-var birdTexture = SKTexture(imageNamed:"PlayerNOflap")
-var flyBirdTexture = SKTexture(imageNamed:"PlayerFlap")
+
+
+//Brid Textures
+var birdNormTexture = SKTexture(imageNamed:"PlayerNOflap")
+var flyBirdNormTexture = SKTexture(imageNamed:"PlayerFlap")
+
+var birdTopHatTexture = SKTexture(imageNamed:"playerNOflapTopHat")
+var flyBirdTopHatTexture = SKTexture(imageNamed:"playerFlapTopHat")
+
+var birdSnowCapTexture = SKTexture(imageNamed:"playerNOflapSnowCap")
+var flyBirdSnowCapTexture = SKTexture(imageNamed:"playerFlapSnowCap")
+
+var birdBunnyEarsTexture = SKTexture(imageNamed:"playerNOflapBunnyEars")
+var flyBirdBunnyEarsTexture = SKTexture(imageNamed:"playerFlapBunnyEars")
+
+var birdVikingHatTexture = SKTexture(imageNamed:"playerNOflapVikingHat")
+var flyBirdVikingHatTexture = SKTexture(imageNamed:"playerFlapVikingHat")
+
+var playerScale:CGFloat = 1
+
+var playerNoFlyTexture = birdNormTexture
+var playerFlyTexture = flyBirdNormTexture
+var currentOutfit = userDefaults .integerForKey("currentOutfit")
+
 
 
 var iceBlock1CollisionNumber = 0
@@ -60,10 +96,15 @@ var iceBlock4CollisionNumber = 0
 var iceBlock5CollisionNumber = 0
 
 var score = 0
+
 var countDownNum = 3
 
 var scoreLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
 var countDownLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
+var highScoreLabel = SKLabelNode(fontNamed:"AmericanTypewriter-Bold")
+var endScoreLabel = SKLabelNode(fontNamed:"AmericanTypewriter-Bold")
+var coinLabel = SKLabelNode(fontNamed:"GillSans-BoldItalic")
+
 
 var playerOnIce1 = false
 var playerOnIce2 = false
@@ -88,19 +129,102 @@ let BROKEICEPEICE_CATTEGORY_MASK:UInt32 = 0x1 << 10
 var playerOrigXScaleRight:CGFloat = 0.0
 var playerOrigXScaleLeft:CGFloat = 0.0
 
+let userDefaults = NSUserDefaults .standardUserDefaults()
+
+var highScore = userDefaults .integerForKey("highScore")
+var coinNum = userDefaults .integerForKey("coin")
+
+
+var newHighScore = false
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
+        self .removeAllChildren()
 
+
+        highScore = userDefaults .integerForKey("highScore")
+
+        currentOutfit = userDefaults .integerForKey("currentOutfit")
+        
+        //Determin PLayer skin
+        if  currentOutfit == 0 {
+            
+            playerFlyTexture = flyBirdNormTexture
+            playerNoFlyTexture = birdNormTexture
+            
+            playerScale = 0.5
+            
+        }else if currentOutfit == 1 {
+            
+            playerFlyTexture = flyBirdSnowCapTexture
+            playerNoFlyTexture = birdSnowCapTexture
+            
+            playerScale = 1
+            
+            
+         
+            
+
+        }else if currentOutfit == 2 {
+            
+            playerFlyTexture = flyBirdBunnyEarsTexture
+            playerNoFlyTexture = birdBunnyEarsTexture
+            
+            playerScale = 1
+            
+            
+      
+            
+            
+        }else if currentOutfit == 3 {
+            
+            
+            
+            
+            playerFlyTexture = flyBirdTopHatTexture
+            playerNoFlyTexture = birdTopHatTexture
+            
+            playerScale = 1
+            
+            
+        }else if currentOutfit == 4 {
+            
+            
+            
+            playerFlyTexture = flyBirdVikingHatTexture
+            playerNoFlyTexture = birdVikingHatTexture
+            
+            playerScale = 1
+            
+       
+            
+            
+        }else if currentOutfit == 5 {
+            
+            
+            
+
+            
+            
+        }else if currentOutfit == 6 {
+            
+            
+
+           
+            
+        }
         
         countDownNum = 3
         gameStart = false
+        gameEndBool = false
 
-        coinDropTimer = nil
-        monDropTimer = nil
-        
+        newHighScore = false
+        coinDropTimer .invalidate()
+        monDropTimer .invalidate()
+        startTimer .invalidate()
+        scoreTimer .invalidate()
         
         /* Setup your scene here */
         iceBlock1CollisionNumber = 0
@@ -115,6 +239,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceBlock4.texture = iceBlockTexture
         iceBlock5.texture = iceBlockTexture
         
+ 
+        
+
         score = 0
         
         self .removeAllChildren()
@@ -128,9 +255,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Score Label
         scoreLabel.text = "Score: \(score)"
-        scoreLabel.fontSize = 35;
-        scoreLabel.position = CGPointMake(self.frame.width/2, self.frame.height - 65)
+        scoreLabel.fontSize = 25;
+        scoreLabel.position = CGPointMake(10 + scoreLabel.frame.width/2, self.frame.height - 35)
         self.addChild(scoreLabel)
+
+        
+
+        //coin Label
+        coinLabel.text = "x \(coinNum)"
+        coinLabel.fontSize = 20
+        coinLabel.position = CGPointMake(self.frame.width - coinLabel.frame.width/2, self.frame.height - 35)
+        self .addChild(coinLabel)
+        
+        //Cornner Coin
+        cornerCoin = SKSpriteNode(imageNamed: "Coin")
+        cornerCoin .setScale(0.5)
+
+        cornerCoin.position = CGPointMake(coinLabel.position.x - coinLabel.frame.width/2 - cornerCoin.frame.width/2, self.frame.height - 35 + cornerCoin.frame.height/2)
+        self .addChild(cornerCoin)
+        
+
+
+        
+        
         
         //Physics
         self.physicsWorld.gravity = CGVectorMake(0, -7)
@@ -142,19 +289,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Player
 
-        birdTexture.filteringMode = SKTextureFilteringMode.Nearest
-        player = SKSpriteNode(texture:birdTexture)
+        playerNoFlyTexture.filteringMode = SKTextureFilteringMode.Nearest
+        player = SKSpriteNode(texture:playerNoFlyTexture)
         player.position = CGPointMake(self.frame.width/2, 285 + player.frame.height)
         player.physicsBody = SKPhysicsBody(circleOfRadius:player.frame.height/2)
         player.physicsBody.dynamic = true
         player.physicsBody.allowsRotation = false
+        
         
         player.physicsBody.categoryBitMask = PLAYER_CATTEGORY_MASK
         player.physicsBody.collisionBitMask = ICEBLOCK1_CATTEGORY_MASK | ICEBLOCK2_CATTEGORY_MASK | ICEBLOCK3_CATTEGORY_MASK | ICEBLOCK4_CATTEGORY_MASK | ICEBLOCK5_CATTEGORY_MASK | WALLBLOCK_CATTEGORY_MASK | GROUND_CATTEGORY_MASK
         
         player.physicsBody.contactTestBitMask = ICEBLOCK1_CATTEGORY_MASK | ICEBLOCK2_CATTEGORY_MASK | ICEBLOCK3_CATTEGORY_MASK | ICEBLOCK4_CATTEGORY_MASK | ICEBLOCK5_CATTEGORY_MASK | GROUND_CATTEGORY_MASK | COIN_CATTEGORY_MASK
         
-        player.setScale(0.5)
+        player.setScale(playerScale)
+        
         player.physicsBody.density = 0.0001
         self.scene .addChild(player)
         
@@ -164,7 +313,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var groundTexture = SKTexture(imageNamed:"Ground")
         groundTexture.filteringMode = SKTextureFilteringMode.Nearest
         ground = SKSpriteNode(texture:groundTexture)
-        ground.position = CGPointMake(self.frame.width/2, ground.frame.height/2)
+        ground.position = CGPointMake(self.frame.width/2, 3)
         ground.physicsBody = SKPhysicsBody(rectangleOfSize:ground.size)
         ground.physicsBody.dynamic = false
         ground.physicsBody.categoryBitMask = GROUND_CATTEGORY_MASK
@@ -268,11 +417,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Timers
 
+        
         startTimer = NSTimer .scheduledTimerWithTimeInterval(1, target: self, selector: "countDown", userInfo: nil, repeats: true)
         
 
+
         
+        iceBlock1Sign = SKSpriteNode(imageNamed: "coinSign")
+        iceBlock1Sign.position = CGPointMake(iceBlock1.position.x + iceBlock1.frame.width/2, ground.position.y + ground.frame.height/2 + iceBlock1Sign.frame.height/2)
+        iceBlock1Sign .setScale(0.7)
+        
+        iceBlock2Sign = SKSpriteNode(imageNamed: "coinSign")
+        iceBlock2Sign.position = CGPointMake(iceBlock2.position.x + iceBlock2.frame.width/2, ground.position.y + ground.frame.height/2 + iceBlock2Sign.frame.height/2)
+        iceBlock2Sign .setScale(0.7)
+
+        
+        iceBlock3Sign = SKSpriteNode(imageNamed: "coinSign")
+        iceBlock3Sign.position = CGPointMake(iceBlock3.position.x + iceBlock3.frame.width/2, ground.position.y + ground.frame.height/2 + iceBlock3Sign.frame.height/2)
+        iceBlock3Sign .setScale(0.7)
+
+        
+        iceBlock4Sign = SKSpriteNode(imageNamed: "coinSign")
+        iceBlock4Sign.position = CGPointMake(iceBlock4.position.x + iceBlock4.frame.width/2, ground.position.y + ground.frame.height/2 + iceBlock4Sign.frame.height/2)
+        iceBlock4Sign .setScale(0.7)
+
+        
+        iceBlock5Sign = SKSpriteNode(imageNamed: "coinSign")
+        iceBlock5Sign.position = CGPointMake(iceBlock5.position.x + iceBlock5.frame.width/2, ground.position.y + ground.frame.height/2 + iceBlock5Sign.frame.height/2)
+        iceBlock5Sign .setScale(0.7)
+
     }
+
     
     func countDown(){
         if countDownNum == 3{
@@ -299,21 +474,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shouldDropCoin = true
             
 
-        if !monDropTimer{
-            println("momTimer dont exist")
             monDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropIce", userInfo: nil, repeats: true)
             
             
-        }
         
         
-        if !coinDropTimer{
+        
 
-            println("coin drop timwe no exist")
             coinDropTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector:"dropCoin", userInfo: nil, repeats: true)
             
             
-        }
+        
+            scoreTimer = NSTimer .scheduledTimerWithTimeInterval(0.5, target: self, selector: "addScore", userInfo: nil, repeats: true)
             
         }
         
@@ -322,76 +494,218 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Called when a touch begins */
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self.scene)
-        if gameStart == true {
-       
+            
+            if gameStart == true || gameEndBool == true{
                 
-            if location.x > player.position.x{
-
-
-                player.xScale = playerOrigXScaleRight
-
-            player.physicsBody.velocity = CGVectorMake(playerXVelocity, player.physicsBody.velocity.dy)
-            }
-
-            else {
-            player.physicsBody.velocity = CGVectorMake(playerXVelocity * -1, player.physicsBody.velocity.dy)
-
-                player.xScale = playerOrigXScaleLeft
-
-            }
-            }
-            if CGRectContainsPoint(retryButton.frame, location){
-                restartScene()
-            }else if CGRectContainsPoint(menuButton.frame, location){
-                
-                var scene:menuScene!
-                
-                scene = menuScene(size: self.view.bounds.size)
-                scene.scaleMode = .AspectFill
-                
-                // Present the scene.
-                
-                
-                self.view.presentScene(scene)
-                
-                
-                for node:AnyObject in self.children{
-                    
-                    node .removeFromParent()
-                    
-                    
+                    if location.x > player.position.x{
+                        
+                        
+                        player.xScale = playerOrigXScaleRight
+                        
+                        player.physicsBody.velocity = CGVectorMake(playerXVelocity, player.physicsBody.velocity.dy)
+                    }
+                        
+                    else {
+                        player.physicsBody.velocity = CGVectorMake(playerXVelocity * -1, player.physicsBody.velocity.dy)
+                        
+                        player.xScale = playerOrigXScaleLeft
+                        
                 }
 
                 
+    
+                
+                
+            if gameEndBool == true {
+                
+                if CGRectContainsPoint(retryButton.frame, location)
+                {
+                    buttonWasPushed = true
+                    retryButton .removeFromParent()
+                    menuButton .removeFromParent()
+                    restartScene()
+                }
+                    
+                else if CGRectContainsPoint(menuButton.frame, location)
+                {
 
+                    buttonWasPushed = true
+
+                    var scene:menuScene!
+
+                    scene = menuScene(size: self.view.bounds.size)
+                    scene.scaleMode = .AspectFill
+
+                    // Present the scene.
+
+
+                    self .removeAllChildren()
+                    self.view.presentScene(scene)
+
+                }
+            }
+                
+                if iceBlock1.hidden == true{
+                    
+                    if CGRectContainsPoint(iceBlock1Sign.frame, location){
+
+                        buttonWasPushed = true
+
+                        if coinNum >= 20{
+
+                            coinNum -= 20
+                            iceBlock1.position.y = player.position.y - iceBlock1.frame.height/2 - player.frame.height
+
+                            iceBlock1.hidden = false
+                            iceBlock1.physicsBody.categoryBitMask = ICEBLOCK1_CATTEGORY_MASK
+                            iceBlock1Sign .removeFromParent()
+
+
+                        }
+                    
+                    
+                    }
+                }
+                if iceBlock2.hidden == true{
+                    if CGRectContainsPoint(iceBlock2Sign.frame, location){
+                        buttonWasPushed = true
+
+                        if coinNum >= 20{
+                            coinNum -= 20
+                            iceBlock2.position.y = player.position.y - iceBlock2.frame.height/2 - player.frame.height
+
+                            iceBlock2.hidden = false
+                            iceBlock2.physicsBody.categoryBitMask = ICEBLOCK2_CATTEGORY_MASK
+                            iceBlock2Sign .removeFromParent()
+
+                        }
+                    }
+                    
+                }
+                if iceBlock3.hidden == true{
+                    if CGRectContainsPoint(iceBlock3Sign.frame, location){
+                        buttonWasPushed = true
+
+                        if coinNum >= 20{
+                            
+                            coinNum -= 20
+                            iceBlock3.position.y = player.position.y - iceBlock3.frame.height/2 - player.frame.height
+
+                            iceBlock3.hidden = false
+                            iceBlock3.physicsBody.categoryBitMask = ICEBLOCK3_CATTEGORY_MASK
+                            iceBlock3Sign .removeFromParent()
+
+                        }
+                    }
+                    
+                }
+                if iceBlock4.hidden == true{
+                    if CGRectContainsPoint(iceBlock4Sign.frame, location){
+                        buttonWasPushed = true
+
+                        if coinNum >= 20{
+                            coinNum -= 20
+                            iceBlock4.position.y = player.position.y - iceBlock4.frame.height/2 - player.frame.height
+
+                            iceBlock4.hidden = false
+                            iceBlock4.physicsBody.categoryBitMask = ICEBLOCK4_CATTEGORY_MASK
+                            iceBlock4Sign .removeFromParent()
+
+                        }
+                    }
+                    
+                }
+                if iceBlock5.hidden == true{
+                    if CGRectContainsPoint(iceBlock5Sign.frame, location){
+                        buttonWasPushed = true
+
+                        if coinNum >= 20{
+                            coinNum -= 20
+                            iceBlock5.position.y = player.position.y - iceBlock5.frame.height/2 - player.frame.height
+
+                            iceBlock5.hidden = false
+                            iceBlock5.physicsBody.categoryBitMask = ICEBLOCK5_CATTEGORY_MASK
+                            iceBlock5Sign .removeFromParent()
+                            
+                        }
+                    }
+                    
+                }
                 
             }
-
         }
 
         
     
     }
     override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
+        /* Called when a touch ends */
         
-        if gameStart == true{
-        if player.physicsBody.velocity.dx > 0{
+    
+
+        if buttonWasPushed == true {
             
-            player.physicsBody.velocity = CGVectorMake(80, player.physicsBody.velocity.dy)
-            
+            player.physicsBody.velocity = CGVectorMake(0, player.physicsBody.velocity.dy)
+
+            buttonWasPushed = false
+
         }else{
+  
+        if gameStart == true || gameEndBool == true{
             
-            player.physicsBody.velocity = CGVectorMake(-80, player.physicsBody.velocity.dy)
             
-        }
+            
+            
+            
+            if player.physicsBody.velocity.dx > 0{
+                
+                
+                
+                player.physicsBody.velocity = CGVectorMake(80, player.physicsBody.velocity.dy)
+                
+                
+                
+            }
+            else
+            {
+                
+                
+                
+                player.physicsBody.velocity = CGVectorMake(-80, player.physicsBody.velocity.dy)
+                
+                
+                
+            }
+            
+            
+            
+            
+            
         }
         
+        }
         
     }
+    
+    
     override func update(currentTime: CFTimeInterval) {
+        iceBlock1.position.x = 10
+        iceBlock2.position.x = 70
+        iceBlock3.position.x = 130
+        iceBlock4.position.x = 190
+        iceBlock5.position.x = 250
         
+        iceBlock1.physicsBody.velocity.dx = 0
+        iceBlock2.physicsBody.velocity.dx = 0
+        iceBlock3.physicsBody.velocity.dx = 0
+        iceBlock4.physicsBody.velocity.dx = 0
+        iceBlock5.physicsBody.velocity.dx = 0
+
+
         scoreLabel.text = "Score: \(score)"
-        
+        coinLabel.text = "x \(coinNum)"
+        coinLabel.position = CGPointMake(self.frame.width - coinLabel.frame.width/2, self.frame.height - 35)
+        cornerCoin.position = CGPointMake(coinLabel.position.x - coinLabel.frame.width/2 - cornerCoin.frame.width/2, self.frame.height - 35 + cornerCoin.frame.height/2)
         /* Called before each frame is rendered */
 
         //Collision
@@ -400,7 +714,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if CGRectIntersectsRect(player.frame,CGRectMake(iceBlock1.position.x, iceBlock1.position.y + iceBlock1.frame.height/2, iceBlock1.frame.width, iceBlock1.frame.height)
             ){
-                player.texture = birdTexture
+                player.texture = playerNoFlyTexture
 
 
                 iceBlock2CollisionNumber = 0
@@ -450,7 +764,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else if CGRectIntersectsRect(player.frame,CGRectMake(iceBlock2.position.x, iceBlock2.position.y + iceBlock2.frame.height/2, iceBlock2.frame.width, iceBlock2.frame.height)
             ){
-                player.texture = birdTexture
+                
+                player.texture = playerNoFlyTexture
 
                 iceBlock1CollisionNumber = 0
                 iceBlock3CollisionNumber = 0
@@ -501,7 +816,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else if CGRectIntersectsRect(player.frame,CGRectMake(iceBlock3.position.x, iceBlock3.position.y + iceBlock3.frame.height/2, iceBlock3.frame.width, iceBlock3.frame.height)
             ){
-                player.texture = birdTexture
+                player.texture = playerNoFlyTexture
 
 
                 iceBlock2CollisionNumber = 0
@@ -531,6 +846,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
               
                     
                 }else if iceBlock3CollisionNumber > 90{
+                    
                     iceBlock3.hidden = true
                     iceBlock3.physicsBody.categoryBitMask = BROKEICE_CATTEGORY_MASK
 
@@ -554,7 +870,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if CGRectIntersectsRect(player.frame,CGRectMake(iceBlock4.position.x, iceBlock4.position.y + iceBlock4.frame.height/2, iceBlock4.frame.width, iceBlock4.frame.height)
             ){
 
-                player.texture = birdTexture
+                player.texture = playerNoFlyTexture
 
 
                 iceBlock2CollisionNumber = 0
@@ -609,7 +925,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ){
 
 
-                player.texture = birdTexture
+                player.texture = playerNoFlyTexture
 
                 
 
@@ -673,28 +989,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             iceBlock4.texture = iceBlockTexture
             iceBlock5.texture = iceBlockTexture
             
-            player.texture = flyBirdTexture
+            player.texture = playerFlyTexture
+            
 
             
             
         }
         
         
-        iceBlock1.position.x = 10
-        iceBlock2.position.x = 70
-        iceBlock3.position.x = 130
-        iceBlock4.position.x = 190
-        iceBlock5.position.x = 250
         
     }
     }
+    
+    func addScore(){
+        
+    
+        score += 1
+    
+    
+    
+    }
+    
+    
     func dropCoin(){
         
         if gameStart == true{
         
         var x = arc4random() % 6
 
-            println("X: \(x)")
             
         if x == 1 && iceBlock1.hidden == false && shouldDropCoin == true {
             
@@ -791,55 +1113,89 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func dropIce(){
         
-        if gameStart == true {
 
-            if canDropMonsters == true{
 
-                let x = arc4random() % 6
+                var x = arc4random() % 5
+        
 
-                if x == 1 && iceBlock1.hidden == false{
+                if x == 0 && iceBlock1.hidden == false {
 
                 iceBlock1.physicsBody.velocity = CGVectorMake(iceBlock1.physicsBody.velocity.dx, -700)
+                    
+        
 
                 }
-              
-                else if x == 2 && iceBlock1.hidden == false{
+        
+        
+                else if x == 1 && iceBlock2.hidden == false{
 
                 iceBlock2.physicsBody.velocity = CGVectorMake(iceBlock2.physicsBody.velocity.dx, -700)
 
 
 
                 }
-          
-                else if x == 3 && iceBlock1.hidden == false{
+        
+        
+                else if x == 2 && iceBlock3.hidden == false{
 
                 iceBlock3.physicsBody.velocity = CGVectorMake(iceBlock3.physicsBody.velocity.dx, -700)
 
 
                 }
-             
-                else if x == 4 && iceBlock1.hidden == false{
+        
+        
+                else if x == 3 && iceBlock4.hidden == false{
 
                 iceBlock4.physicsBody.velocity = CGVectorMake(iceBlock4.physicsBody.velocity.dx, -700)
 
 
 
                 }
-              
-                else if x == 5 && iceBlock1.hidden == false{
+        
+        
+                else if x == 4 && iceBlock5.hidden == false{
 
                 iceBlock5.physicsBody.velocity = CGVectorMake(iceBlock5.physicsBody.velocity.dx, -700)
 
-
-
                 }
-               
-
-            }
-        }
-        }
+                    else{
+                    
+                    dropIce()
+    
+                    }
+        
+    }
+    
     func gameEnd(){
         //GAME OVER
+
+        scoreTimer .invalidate()
+        
+        gameEndBool = true
+        
+        player.texture = playerNoFlyTexture
+
+        
+        
+        userDefaults .setInteger(coinNum, forKey: "coin")
+        
+        if score > highScore {
+            
+            userDefaults .setInteger(highScore, forKey: "highScore")
+
+            
+            
+            highScore = score
+            
+
+            endScoreLabel.fontColor = UIColor(red: 25, green: 25, blue: 25, alpha: 1)
+            
+            newHighScore = true
+            
+        }else{
+            endScoreLabel.fontColor = UIColor .whiteColor()
+
+        }
     
         gameStart = false
         self .addChild(beforeGameTint)
@@ -847,18 +1203,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         retryButton.position = CGPointMake(self.frame.width/3, self.frame.height/2)
         self .addChild(retryButton)
         
-        menuButton.position = CGPointMake(self.frame.width/2 + menuButton.frame.width/2, self.frame.height/2)
+        menuButton.position = CGPointMake(self.frame.width/2 + menuButton.frame.width, self.frame.height/2)
         menuButton .setScale(1.5)
         self .addChild(menuButton)
         
-        coinDropTimer = nil
-        monDropTimer = nil
+        coinDropTimer .invalidate()
+        monDropTimer .invalidate()
         
+        highScoreLabel.position = CGPointMake(self.frame.width/2, self.frame.height/2 - 50)
+        highScoreLabel.text = "Best Score: \(highScore)"
+        highScoreLabel.fontSize = 25
+        highScoreLabel.fontColor = UIColor .cyanColor()
+        self .addChild(highScoreLabel)
+
+        endScoreLabel.position = CGPointMake(highScoreLabel.position.x, highScoreLabel.position.y - 30)
+        endScoreLabel.text = "Your Score: \(score)"
+        endScoreLabel.fontSize = 25
+        self .addChild(endScoreLabel)
+        
+        if newHighScore == true{
+            
+            newScoreSprite.position = CGPointMake(highScoreLabel.position.x + highScoreLabel.frame.width/2, highScoreLabel.position.y + newScoreSprite.frame.height)
+            newScoreSprite .setScale(0.8)
+            
+            self .addChild(newScoreSprite)
+
+        }
+        
+        userDefaults .synchronize()
 
         
 
         
     }
+    
     func restartScene(){
         
         
@@ -934,16 +1312,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //Coin and Player
-            score += 5
+            coinNum += 1
             coin .removeFromParent()
             shouldDropCoin = true
             
             
         }
+        if ((firstNode.physicsBody.categoryBitMask == BROKEICEPEICE_CATTEGORY_MASK) || (secondNode.physicsBody.categoryBitMask == BROKEICEPEICE_CATTEGORY_MASK )) && ((firstNode.physicsBody.categoryBitMask == GROUND_CATTEGORY_MASK) || secondNode.physicsBody.categoryBitMask == GROUND_CATTEGORY_MASK){
+            
+            
+            if firstNode.physicsBody.categoryBitMask == BROKEICEPEICE_CATTEGORY_MASK {
+                
+                firstNode .removeFromParent()
+            
+            }
+            if secondNode.physicsBody.categoryBitMask == BROKEICEPEICE_CATTEGORY_MASK{
+                secondNode .removeFromParent()
+            }
+            
+            
+        }
+
         
      
     }
-    
+    }
     func didEndContact(contact: SKPhysicsContact!){
         
         let firstNode = contact.bodyA.node
@@ -997,17 +1390,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         }
-    }
+    
     
     func breakIceBlock(block: SKSpriteNode){
     
     
+        addSign(block)
+        
         var peiceOne = SKSpriteNode(imageNamed:"BrokenIcePeice")
         peiceOne.position = CGPointMake(block.position.x, block.position.y)
         peiceOne.physicsBody = SKPhysicsBody(circleOfRadius: peiceOne.frame.width/2)
         peiceOne .setScale(0.3)
         peiceOne.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceOne.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceOne.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
         
         self .addChild(peiceOne)
         
@@ -1017,6 +1413,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         peiceTwo .setScale(0.3)
         peiceTwo.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceTwo.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceTwo.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
 
         self .addChild(peiceTwo)
         
@@ -1026,6 +1423,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         peiceThree .setScale(0.3)
         peiceThree.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceThree.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceThree.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
 
         self .addChild(peiceThree)
         
@@ -1035,6 +1433,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         peiceFour .setScale(0.3)
         peiceFour.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceFour.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceFour.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
 
         self .addChild(peiceFour)
         
@@ -1044,6 +1443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         peiceFive .setScale(0.3)
         peiceFive.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceFive.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceFive.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
 
         self .addChild(peiceFive)
         
@@ -1053,12 +1453,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         peiceSix .setScale(0.3)
         peiceSix.physicsBody.categoryBitMask = BROKEICEPEICE_CATTEGORY_MASK
         peiceSix.physicsBody.collisionBitMask = GROUND_CATTEGORY_MASK
+        peiceSix.physicsBody.contactTestBitMask = GROUND_CATTEGORY_MASK
 
         self .addChild(peiceSix)
         
 
         
     
+    }
+    
+    func addSign(block:SKSpriteNode){
+
+        
+        
+        if block.position.x == 10{
+            //block 1
+            self .addChild(iceBlock1Sign)
+
+            
+        }else if block.position.x == 70{
+            //block 2
+            self .addChild(iceBlock2Sign)
+
+        }else if block.position.x == 130{
+            //block 3
+            self .addChild(iceBlock3Sign)
+
+            
+        }else if block.position.x == 190{
+            //block 4
+            self .addChild(iceBlock4Sign)
+
+            
+        }else if block.position.x == 250{
+            //block 5
+            self .addChild(iceBlock5Sign)
+
+            
+        }
+        
+        
+        
+        
+        
+        
     }
 
 }

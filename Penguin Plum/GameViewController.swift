@@ -9,8 +9,17 @@
 import UIKit
 import SpriteKit
 
+
+
+
+
+var shop:shopScene!
+
+
 class GameViewController: UIViewController {
     var scene: menuScene!
+    
+    
     
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -24,6 +33,10 @@ class GameViewController: UIViewController {
         return Int(UIInterfaceOrientationMask.AllButUpsideDown.toRaw())
     }
     override func viewDidLoad() {
+        
+
+
+ 
         super.viewDidLoad()
         
         // Configure the view.
@@ -31,6 +44,7 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
 
         
+
         skView.showsFPS = false
         skView.showsNodeCount = false
         skView.showsPhysics = false
@@ -42,3 +56,11 @@ class GameViewController: UIViewController {
         skView.presentScene(scene)
     }
 }
+
+
+
+
+
+
+
+
