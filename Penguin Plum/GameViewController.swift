@@ -46,7 +46,7 @@ class GameViewController: UIViewController {
         
 
         skView.showsFPS = false
-        skView.showsNodeCount = false
+        skView.showsNodeCount = true
         skView.showsPhysics = false
         // Create and configure the scene.
         scene = menuScene(size: skView.bounds.size)

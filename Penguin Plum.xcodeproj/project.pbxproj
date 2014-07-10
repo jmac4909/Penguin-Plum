@@ -14,7 +14,6 @@
 		3F01755019571BB10045EE68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F01754E19571BB10045EE68 /* Main.storyboard */; };
 		3F01755219571BB10045EE68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F01755119571BB10045EE68 /* Images.xcassets */; };
 		3F01755E19571BB10045EE68 /* Penguin_PlumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01755D19571BB10045EE68 /* Penguin_PlumTests.swift */; };
-		3F599C21196F04FE00448E4F /* Test.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F599C20196F04FE00448E4F /* Test.sks */; };
 		3F77D689196C5F47007D059A /* shopScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F77D688196C5F47007D059A /* shopScene.swift */; };
 		3FCB0DF81966E72D00756BE2 /* menuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB0DF71966E72D00756BE2 /* menuScene.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +40,6 @@
 		3F01755719571BB10045EE68 /* Penguin PlumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Penguin PlumTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F01755C19571BB10045EE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F01755D19571BB10045EE68 /* Penguin_PlumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penguin_PlumTests.swift; sourceTree = "<group>"; };
-		3F599C20196F04FE00448E4F /* Test.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Test.sks; sourceTree = "<group>"; };
 		3F77D688196C5F47007D059A /* shopScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shopScene.swift; sourceTree = "<group>"; };
 		3FCB0DF71966E72D00756BE2 /* menuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,7 +89,6 @@
 				3F01754A19571BB10045EE68 /* GameScene.swift */,
 				3F77D688196C5F47007D059A /* shopScene.swift */,
 				3FCB0DF71966E72D00756BE2 /* menuScene.swift */,
-				3F599C20196F04FE00448E4F /* Test.sks */,
 				3F01754E19571BB10045EE68 /* Main.storyboard */,
 				3F01755119571BB10045EE68 /* Images.xcassets */,
 				3F01754419571BB10045EE68 /* Supporting Files */,
@@ -208,7 +205,6 @@
 				3F01755219571BB10045EE68 /* Images.xcassets in Resources */,
 				3F01754919571BB10045EE68 /* GameScene.sks in Resources */,
 				3F01755019571BB10045EE68 /* Main.storyboard in Resources */,
-				3F599C21196F04FE00448E4F /* Test.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

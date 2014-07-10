@@ -21,7 +21,6 @@ var  storeButton = SKSpriteNode(imageNamed: "storeButton")
 
 
 
-
 class menuScene: SKScene {
 
    
@@ -35,16 +34,14 @@ class menuScene: SKScene {
         playButton.position = CGPointMake(self.frame.width/2, self.frame.height/2)
         self .addChild(playButton)
         
-        storeButton.position = CGPointMake( playButton.position.x - storeButton.frame.width/2, playButton.position.y - playButton.frame.height)
+        storeButton.position = CGPointMake( playButton.position.x, playButton.position.y - playButton.frame.height - storeButton.frame.height)
         self .addChild(storeButton)
         
         
-        self.backgroundColor = UIColor .whiteColor()
+        self.backgroundColor = UIColor(red: 65/255, green: 160/255, blue: 222/255, alpha: 1)
         
- 
-
-
         
+                
         
         
     }
@@ -86,12 +83,11 @@ class menuScene: SKScene {
                     scene.scaleMode = .AspectFill
                                         
                     // Present the scene.
-                    let transition2 = SKTransition .doorwayWithDuration(1)
                     
                     
                     self .removeAllChildren()
                     
-                    self.view.presentScene(scene, transition: transition2)
+                    self.view.presentScene(scene)
                     
                     
                     

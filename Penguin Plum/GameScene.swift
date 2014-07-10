@@ -142,6 +142,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         self .removeAllChildren()
+        
+    
 
 
         highScore = userDefaults .integerForKey("highScore")
@@ -250,8 +252,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         canDropMonsters = false
         
         //Backgroud
-        self.backgroundColor = UIColor(red: 65/255, green: 160/255, blue: 222/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 65/255, green: 160/255, blue: 212/255, alpha: 1)
         
+        //Snow
+        var emmiter = SKEmitterNode()
+        emmiter.particleTexture = SKTexture(imageNamed: "snow")
+        emmiter.particleSpeed = 1
+        emmiter.particleBirthRate = 15
+        emmiter.position = CGPointMake(self.frame.width/2, self.frame.height)
+        emmiter.particleLifetime = 3
+        emmiter.xAcceleration = 0
+        emmiter.yAcceleration = -200
+        emmiter.particleScale = 0.2
+        emmiter.particlePositionRange = CGVectorMake(self.frame.width, 0)
+        
+
+        self .addChild(emmiter)
+
         
         //Score Label
         scoreLabel.text = "Score: \(score)"

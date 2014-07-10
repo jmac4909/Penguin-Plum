@@ -220,8 +220,6 @@ class shopScene: SKScene {
     
         
         
-        println("Hat Position = \(snowHatButton.position)")
- 
     }
     override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
         let location = touches.anyObject().locationInNode(self)
